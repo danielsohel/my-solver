@@ -1,0 +1,30 @@
+name: Solve LeetCode Problem
+
+on:
+  workflow_dispatch:
+    inputs:
+      problem:
+        description: "The LeetCode problem to solve"
+        required: true
+        type: string
+
+jobs:
+  solve:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install openai
+
+      - name: Solve and email
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_PASS: ${{ secrets.GMAIL_PASS }}
+          PROBLEM: ${{ github.event.inputs.problem }}
+        run: python solver.py
