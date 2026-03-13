@@ -1,10 +1,14 @@
-name: Solve LeetCode Problem
+name: Solve Exam Question
 
 on:
   workflow_dispatch:
     inputs:
       problem:
-        description: "The LeetCode problem to solve"
+        description: "The C exam question to solve"
+        required: true
+        type: string
+      question_type:
+        description: "Question type: q1_analysis, q2_solve, q3_solve, q4_backtracking"
         required: true
         type: string
 
@@ -27,4 +31,5 @@ jobs:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_PASS: ${{ secrets.GMAIL_PASS }}
           PROBLEM: ${{ github.event.inputs.problem }}
+          QUESTION_TYPE: ${{ github.event.inputs.question_type }}
         run: python solver.py
